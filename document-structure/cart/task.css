@@ -89,3 +89,23 @@ body {
 .product-shadow {
   position: absolute;
 }
+
+.cart__hidden {
+  display: none;
+}
+
+
+.cart__remove-product {
+  background-color: rgb(117, 117, 117);
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+.cart__remove-product:hover {
+  background-color: rgb(165, 44, 44);
+}
