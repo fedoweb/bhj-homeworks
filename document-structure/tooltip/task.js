@@ -1,4 +1,3 @@
-
 const tooltipElements = document.querySelectorAll('.has-tooltip');
 
 tooltipElements.forEach(tooltipElement => {
@@ -9,6 +8,7 @@ tooltipElements.forEach(tooltipElement => {
 
         const tooltipText = tooltipElement.getAttribute('title');
         let tooltip = tooltipElement.querySelector('.tooltip');
+        
 
         document.querySelectorAll('.tooltip_active').forEach(tooltip => {
             tooltip.classList.remove('tooltip_active');
@@ -19,21 +19,26 @@ tooltipElements.forEach(tooltipElement => {
             tooltip = document.createElement('div');
             tooltip.className = 'tooltip';
             tooltip.textContent = tooltipText;
-            tooltipElement.appendChild(tooltip);
 
-            tooltipElement.style = 'position:relative;';
-            tooltip.style = 'position:absolute; left:0; top:22px';
+            const parentNode = tooltipElement.parentNode;
+            parentNode.insertBefore(tooltip, tooltipElement.nextSibling);
+            
+            const rect = tooltipElement.getBoundingClientRect();
+            const top = rect.top + window.scrollY;
+            const left = rect.left + window.scrollX;
+            
+            tooltip.style = `position:absolute; left:${left}px; top:${top + 22}px`;
 
             tooltip.classList.add('tooltip_active');
             isOpen = true;
+
+        } else if (!isOpen) {
+            tooltip.classList.add('tooltip_active');
+            isOpen = true;
+      
         } else {
-            if (isOpen) {
-                tooltip.classList.remove('tooltip_active');
-                isOpen = false;
-            } else {
-                tooltip.classList.add('tooltip_active');
-                isOpen = true;
-            }
-        }
+            tooltip.classList.remove('tooltip_active');
+            isOpen = false;
+        };
     });
 });
