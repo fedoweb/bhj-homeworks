@@ -5,54 +5,34 @@ const addButton = document.getElementById('tasks__add');
 let text = '';
 
 function createToDo(text) {
-    const container = document.createElement('div');
-    const div = document.createElement('div');
-    const link = document.createElement('a');
+    tasksList.insertAdjacentHTML('afterbegin', `
+        <div class="task">
+            <div class="task__title">
+            ${text}
+            </div>
+            <a href="#" class="task__remove">&times;</a>
+        </div>
+    `);
 
-    container.classList.add('task');
-    div.classList.add('task__title');
-    div.textContent = text;
-    link.href = '#';
-    link.classList.add('task__remove');
-    link.innerHTML = '&times;';
+    const links = tasksList.querySelectorAll('.task__remove');
 
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const deleteElement = container;
-        deleteElement.remove();
+    links.forEach(link => {
+        link.addEventListener('click', () => {
+            const deleteElement = link.closest('.task');
+            deleteElement.remove();
+        })
     });
-    
-    tasksList.appendChild(container);
-    container.appendChild(div);
-    container.appendChild(link);
 };
 
-function validate() {
-    if (taskInput.value.length === 0) {
-        return false;
-    } else {
-        return true;
-    }
-};
+addButton.addEventListener('click', (e) => {
+    e.preventDefault();
 
-addButton.addEventListener('click', () => {
-    text = taskInput.value;
-    if (validate()) {
+    text = taskInput.value.trim();
+ 
+    if (text.length > 0) {
         createToDo(text);
         taskInput.value = '';
-    } 
+    } else {
+        taskInput.value = '';
+    }
 });
-
-taskInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-        addButton.click();
-    } 
-});
-
-
-
-
-
-
-
-
