@@ -1,21 +1,13 @@
 const tooltipElements = document.querySelectorAll('.has-tooltip');
 
 tooltipElements.forEach(tooltipElement => {
-    let isOpen = false;
-
     tooltipElement.addEventListener('click', (e) => {
         e.preventDefault();
-
-        const tooltipText = tooltipElement.getAttribute('title');
-        let tooltip = tooltipElement.querySelector('.tooltip');
         
+        let tooltip = document.querySelector('.tooltip');
+        const tooltipText = tooltipElement.getAttribute('title');
 
-        document.querySelectorAll('.tooltip_active').forEach(tooltip => {
-            tooltip.classList.remove('tooltip_active');
-            tooltip.parentNode.removeChild(tooltip);
-        });
-
-        if (!tooltip) {
+        const createTooltip = () => {
             tooltip = document.createElement('div');
             tooltip.className = 'tooltip';
             tooltip.textContent = tooltipText;
@@ -30,15 +22,17 @@ tooltipElements.forEach(tooltipElement => {
             tooltip.style = `position:absolute; left:${left}px; top:${top + 22}px`;
 
             tooltip.classList.add('tooltip_active');
-            isOpen = true;
-
-        } else if (!isOpen) {
-            tooltip.classList.add('tooltip_active');
-            isOpen = true;
-      
-        } else {
-            tooltip.classList.remove('tooltip_active');
-            isOpen = false;
         };
-    });
+
+        if (!tooltip) {
+            createTooltip();
+    
+        } else if (e.target.getAttribute('title') === tooltip.textContent) {
+            tooltip.classList.toggle('tooltip_active');
+
+        } else {
+            tooltip.remove();
+            createTooltip();            
+        };        
+    });  
 });
