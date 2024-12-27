@@ -45,3 +45,8 @@
   display: block;
   text-align: center;
 }
+
+.signup_btn {
+  display: block;
+  margin: 15px auto;
+}
